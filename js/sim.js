@@ -1,4 +1,5 @@
-// Simulation core (client-only for now). Later we’ll move this to a server.
+// Simulation core (client-only right now). Later we can move this to a server.
+
 export const GENRES = ["ACTION","DRAMA","COMEDY","HORROR","SCIFI","ROMANCE","THRILLER","ANIMATION"];
 
 export class World {
@@ -17,25 +18,51 @@ export class World {
 
 export class Studio {
   constructor({ id, name, funds = 500_000 }) {
-    this.id = id; this.name = name; this.funds = funds;
+    this.id = id;
+    this.name = name;
+    this.funds = funds;
     this.projects = [];
   }
 }
 
-export function pitchProject(world, studio) {
-  // Super-simple: cost depends on “demand”; success chance scales with demand.
+/**
+ * Pitch a project. Player skills matter:
+ * - negotiation: reduces cost (max ~20% reduction at 100)
+ * - taste: increases success chance (+/- ~15% across 0–100)
+ * The market demand of the chosen genre affects both cost & success.
+ */
+export function pitchProject(world, studio, player) {
   const genre = GENRES[Math.floor(Math.random() * GENRES.length)];
   const demand = world.market[genre];
-  const cost = Math.round(50_000 * demand);
+
+  // Cost base + market factor
+  const baseCost = 50_000;
+  const marketCost = baseCost * demand;
+
+  // Player negotiation reduces cost up to ~20%
+  const negotiation = clamp01((player?.skills?.negotiation ?? 40) / 100);
+  const costReduction = 0.2 * negotiation; // 0–0.2
+  const cost = Math.round(marketCost * (1 - costReduction));
+
   if (studio.funds < cost) {
     return { ok: false, msg: `Not enough funds. Need $${cost.toLocaleString()}` };
   }
   studio.funds -= cost;
-  const success = Math.random() < (0.45 + (demand - 1.0) * 0.35); // ~25–65%
+
+  // Success chance: baseline + market factor + player taste
+  const baseSuccess = 0.45 + (demand - 1.0) * 0.35;
+  const taste = clamp01((player?.skills?.taste ?? 45) / 100);
+  const tasteBoost = (taste - 0.5) * 0.3; // -0.15..+0.15
+  const successChance = clamp01(baseSuccess + tasteBoost);
+
+  const success = Math.random() < successChance;
   const title = generateTitle(genre);
-  const revenue = success ? Math.round(cost * (1.2 + Math.random() * 2.2)) : 0;
+
+  // Revenue: success yields 1.2x–3.4x cost, lightly scaled by demand
+  const revenue = success ? Math.round(cost * (1.2 + Math.random() * 2.2) * (0.9 + demand * 0.2)) : 0;
   if (success) studio.funds += revenue;
-  const result = { ok: true, success, genre, cost, revenue, title };
+
+  const result = { ok: true, success, genre, cost, revenue, title, successChance: Number(successChance.toFixed(2)) };
   studio.projects.push(result);
   return result;
 }
@@ -45,3 +72,6 @@ function generateTitle(genre) {
   const b = ["Dream", "City", "Echo", "Voyage", "Secret", "Frontier", "Promise"];
   return `${a[Math.floor(Math.random()*a.length)]} ${b[Math.floor(Math.random()*b.length)]} (${genre})`;
 }
+
+function clamp01(x) { return Math.max(0, Math.min(1, x)); }
+
