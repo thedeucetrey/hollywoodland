@@ -7,6 +7,16 @@ button:disabled { opacity: .6; cursor: default; }
 .grid { display: grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); gap: var(--gap); }
 .card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
 .hidden { display: none; }
+
 .genre { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
 .log { margin-top: 10px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; white-space: pre-wrap; }
+
 h1, h2 { margin: 8px 0; }
+
+.row { display: flex; align-items: center; gap: var(--gap); }
+.spacer { flex: 1 1 auto; }
+.statgrid { display: grid; grid-template-columns: repeat(2, minmax(140px, 1fr)); gap: 8px 16px; }
+.kv { display: flex; justify-content: space-between; }
+.monos { font-variant-numeric: tabular-nums; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.badge { border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px; font-size: 12px; background: #fff; }
