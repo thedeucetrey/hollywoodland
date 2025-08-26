@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Hollywoodland MMO</title>
-  </head>
-  <body>
-    <h1>Hello, Hollywood!</h1>
-    <p>First commit 🎬</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hollywoodland MMO (Prototype)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Hollywoodland 🎬</h1>
+    <button id="newStudioBtn">Create Studio</button>
+  </header>
+
+  <section id="studioCard" class="card hidden"></section>
+
+  <section>
+    <h2>Market Demand</h2>
+    <div id="tick">Tick: 0</div>
+    <div id="marketGrid" class="grid"></div>
+  </section>
+
+  <section>
+    <h2>Actions</h2>
+    <button id="pitchBtn" disabled>Pitch Project</button>
+    <div id="log" class="log"></div>
+  </section>
+
+  <script type="module" src="js/app.js"></script>
+</body>
 </html>
