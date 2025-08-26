@@ -1,22 +1,42 @@
-:root { --gap: 12px; --border: #e2e2e2; --bg: #fafafa; }
-* { box-sizing: border-box; }
-body { font-family: system-ui, Arial, sans-serif; margin: 20px; background: var(--bg); }
-header { display: flex; align-items: center; gap: var(--gap); margin-bottom: 16px; }
-button { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: white; cursor: pointer; }
-button:disabled { opacity: .6; cursor: default; }
-.grid { display: grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); gap: var(--gap); }
-.card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
-.hidden { display: none; }
-
-.genre { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
-.log { margin-top: 10px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; white-space: pre-wrap; }
-
-h1, h2 { margin: 8px 0; }
-
-.row { display: flex; align-items: center; gap: var(--gap); }
-.spacer { flex: 1 1 auto; }
-.statgrid { display: grid; grid-template-columns: repeat(2, minmax(140px, 1fr)); gap: 8px 16px; }
-.kv { display: flex; justify-content: space-between; }
-.monos { font-variant-numeric: tabular-nums; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
-.badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-.badge { border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px; font-size: 12px; background: #fff; }
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/style.css b/style.css
+index 63c32215b7f278223b3062e1e39de000fd091760..0be4144594410005a13b8ca0b7f833f69992458d 100644
+--- a/style.css
++++ b/style.css
+@@ -1,22 +1,28 @@
+-:root { --gap: 12px; --border: #e2e2e2; --bg: #fafafa; }
++:root {
++  --gap: 12px;
++  --border: #444;
++  --bg: #1b1d1f;
++  --card-bg: #2a2d31;
++  --text: #eee;
++}
+ * { box-sizing: border-box; }
+-body { font-family: system-ui, Arial, sans-serif; margin: 20px; background: var(--bg); }
++body { font-family: system-ui, Arial, sans-serif; margin: 20px; background: var(--bg); color: var(--text); }
+ header { display: flex; align-items: center; gap: var(--gap); margin-bottom: 16px; }
+-button { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: white; cursor: pointer; }
++button { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: #333; color: var(--text); cursor: pointer; }
+ button:disabled { opacity: .6; cursor: default; }
+ .grid { display: grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); gap: var(--gap); }
+-.card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
++.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+ .hidden { display: none; }
+ 
+ .genre { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
+ .log { margin-top: 10px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; white-space: pre-wrap; }
+ 
+ h1, h2 { margin: 8px 0; }
+ 
+ .row { display: flex; align-items: center; gap: var(--gap); }
+ .spacer { flex: 1 1 auto; }
+ .statgrid { display: grid; grid-template-columns: repeat(2, minmax(140px, 1fr)); gap: 8px 16px; }
+ .kv { display: flex; justify-content: space-between; }
+ .monos { font-variant-numeric: tabular-nums; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+ .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+-.badge { border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px; font-size: 12px; background: #fff; }
++.badge { border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px; font-size: 12px; background: var(--card-bg); color: var(--text); }
+ 
+EOF
+)
